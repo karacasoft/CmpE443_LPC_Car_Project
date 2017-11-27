@@ -1,3 +1,11 @@
+#if defined (__USE_LPCOPEN)
+#if defined(NO_BOARD_LIB)
+#include "chip.h"
+#else
+#include "board.h"
+#endif
+#endif
+
 #include "Ultrasonic.h"
 #include "dev/iocon.h"
 #include "dev/device.h"
@@ -19,7 +27,7 @@ void Ultrasonic_Trigger_Timer_Init() {
 	//Change PR Register value for 1 microsecond incrementing
 	TIMER2->PR = 60;
 	//Write the Correct Configuration for EMR (Toggle Output Value and Initial value is HIGH)
-	TIMER2->EMC |= (1 << 3 | 3 << 10);
+	TIMER2->EMR |= (1 << 3 | 3 << 10);
 	//Enable TIMER2_IRQn (Interrupt Request).
 	NVIC_EnableIRQ(TIMER2_IRQn);
 	//Set Priority Timer2 IRQ as 5.
@@ -43,9 +51,9 @@ void Ultrasonic_Capture_Timer_Init() {
 	TIMER3->TCR |= (1 << 1);
 	
 	//Change PR Register value for 1 microsecond incrementing
-	TIMER3-PR = 60;
+	TIMER3->PR = 15;
 	//Write the Correct Value for Getting Interrupt when Rising Edge Occur
-	TIMER3->CCR = 1;
+	TIMER3->CCR = (1<<0 | 1<<2);
 	//Remove the reset on counters of Timer3.
 	TIMER3->TCR &= ~(1 << 1);
 	//Enable Timer3 Counter and Prescale Counter for counting.
@@ -87,7 +95,7 @@ void TIMER2_IRQHandler() {
 	}
 	
 	//Clear IR Register Flag for Corresponding Interrupt
-	TIMER2->IR |= (1<<3);
+	TIMER2->IR = (1<<3);
 	
 	TIMER2->TC = 0;
 }
@@ -103,7 +111,7 @@ void TIMER3_IRQHandler() {
 		//Store the rising time into ultrasonicSensorRisingTime variable
 		ultrasonicSensorRisingTime = TIMER3->CR0;
 		
-		TIMER3->CCR |= (1 << 1) | (1 << 2);
+		TIMER3->CCR = (1 << 1) | (1 << 2);
 		ultrasonicSensorEdgeCount = 1;
 	}
 	else if(ultrasonicSensorEdgeCount == 1){
@@ -111,10 +119,12 @@ void TIMER3_IRQHandler() {
 		//Store the falling time into ultrasonicSensorFallingTime variable
 		ultrasonicSensorFallingTime = TIMER3->CR0;
 		
-		TIMER3->CCR |= (1 << 0) | (1 << 2);
+		TIMER3->CCR = (1 << 0) | (1 << 2);
 		
 		ultrasonicSensorEdgeCount = 2;
 		
+		ultrasonicSensorDistance = (ultrasonicSensorFallingTime - ultrasonicSensorRisingTime) / 58;
+
 		//Clear pendings for Timer3.
 		NVIC_ClearPendingIRQ(TIMER3_IRQn);
 		//Disable TIMER3_IRQn (Interrupt Request).

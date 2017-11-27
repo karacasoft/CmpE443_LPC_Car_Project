@@ -1,4 +1,4 @@
-src/dev/timer.o src/dev/timer.d: ../src/dev/timer.c \
+src/Ultrasonic.o src/Ultrasonic.d: ../src/Ultrasonic.c \
  /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/inc/chip.h \
  /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/inc/lpc_types.h \
  /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/inc/sys_config.h \
@@ -45,7 +45,9 @@ src/dev/timer.o src/dev/timer.d: ../src/dev/timer.c \
  /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/inc/iap.h \
  /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/inc/error.h \
  /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/inc/fpu_init.h \
- ../src/dev/timer.h
+ ../src/Ultrasonic.h ../src/ultrasonictimer.h ../src/gpio/gpio.h \
+ ../src/dev/iocon.h ../src/dev/device.h \
+ ../src/dev/../peripherals/peripherals.h
 
 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/inc/chip.h:
 
@@ -139,4 +141,14 @@ src/dev/timer.o src/dev/timer.d: ../src/dev/timer.c \
 
 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/inc/fpu_init.h:
 
-../src/dev/timer.h:
+../src/Ultrasonic.h:
+
+../src/ultrasonictimer.h:
+
+../src/gpio/gpio.h:
+
+../src/dev/iocon.h:
+
+../src/dev/device.h:
+
+../src/dev/../peripherals/peripherals.h:

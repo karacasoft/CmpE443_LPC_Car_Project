@@ -1,10 +1,10 @@
 #ifndef ULTRASONIC_H
 #define ULTRASONIC_H
 
-#include "LPC407x_8x_177x_8x.h"
+//#include "LPC407x_8x_177x_8x.h"
 
-#include "GPIO.h"
-#include "Timer.h"
+#include "ultrasonictimer.h"
+#include "gpio/gpio.h"
 
 //Write IOCON Register Address of Trigger Pin.
 #define IOCON_TRIGGER_ADDRESS	0x4002C024 //P0.9
