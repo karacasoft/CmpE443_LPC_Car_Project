@@ -32,12 +32,20 @@
 
 device_info_t *rgb_led;
 
-static uint8_t led_light;
-
 uint16_t value;
 
 uint8_t reading_ldr = 0;
 uint32_t greenVal;
+
+#define TEST_MOTOR 0
+#define TEST_LED 1
+#define TEST_ULTRASONIC 2
+#define TEST_LDR 3
+#define TEST_TRIMPOT 4
+#define TEST_CAR 5
+#define DEMO_DAY 6
+
+uint8_t run_config = TEST_MOTOR;
 
 void adc_callback_green(uint16_t value) {
 	greenVal = (uint32_t) value * 255 / 0xFFF;
@@ -49,6 +57,93 @@ void adc_callback_blue(uint16_t value) {
 	uint32_t blueVal = (uint32_t) value * 255 / 0xFFF;
 	rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute((uint8_t) blueVal - 150);
 }
+
+void test_ultrasonic() {
+    Ultrasonic_Capture_Timer_Init();
+    Ultrasonic_Trigger_Timer_Init();
+
+    Ultrasonic_Start_Trigger();
+
+    while(1) {
+    	if(ultrasonicSensorEdgeCount == 2) {
+    		uint32_t distance = ultrasonicSensorDistance;
+    		if(distance < 5) {
+    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(125);
+    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
+    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
+    		} else if(distance < 10) {
+    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
+    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(125);
+    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
+    		} else if(distance < 15) {
+    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
+    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
+    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(125);
+    		} else {
+    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(125);
+    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(125);
+    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(125);
+    		}
+    		ultrasonicSensorEdgeCount = 0;
+    	}
+    }
+}
+
+void test_trimpot() {
+    trimpot_init();
+
+    while(1) {
+    	value = trimpot_measure();
+
+    	rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute((value * 255 / 0xFFF));
+    }
+}
+
+void test_leds() {
+
+}
+
+void test_ldr() {
+    device_info_t *adc_device = getADCDevice();
+
+    adc_device->start();
+
+    while(1) {
+    	reading_ldr = 1;
+    	adc_device->commands[ADC_COMMAND_CONVERT].execute(1, adc_callback_green);
+    	while(reading_ldr) {
+    		__WFI();
+    	}
+//    	adc_device->commands[ADC_COMMAND_CONVERT].execute(2, adc_callback_blue);
+//    	__WFI();
+    }
+}
+
+void start_car(){
+	//VROOOOM
+	car_init();
+	car_run();
+}
+
+void test_motor() {
+    device_info_t *motor_driver = getL298NDevice();
+
+    motor_driver->start();
+
+    motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(40);
+    motor_driver->commands[L298N_COMMAND_GO_FORWARD].execute(0);
+}
+
+void (*func_list[7])(void) = {
+	test_motor,
+	test_leds,
+	test_ultrasonic,
+	test_ldr,
+	test_trimpot,
+	start_car,
+	start_car
+};
+
 int main(void) {
 
 #if defined (__USE_LPCOPEN)
@@ -63,17 +158,7 @@ int main(void) {
 #endif
 #endif
 
-    //*((volatile uint32_t *) 0x400FC1A8) = 0x8;
-
-//    device_info_t *motor_driver = getL298NDevice();
-//
-//    motor_driver->start();
-//
-//    motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(40);
-//    motor_driver->commands[L298N_COMMAND_GO_FORWARD].execute(0);
-
     init_timer();
-
 
     rgb_led = getRGBLed();
 
@@ -82,64 +167,7 @@ int main(void) {
     rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
     rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
 
-
-    device_info_t *adc_device = getADCDevice();
-
-    adc_device->start();
-
-
-
-    while(1) {
-    	reading_ldr = 1;
-    	adc_device->commands[ADC_COMMAND_CONVERT].execute(1, adc_callback_green);
-    	while(reading_ldr) {
-    		__WFI();
-    	}
-//    	adc_device->commands[ADC_COMMAND_CONVERT].execute(2, adc_callback_blue);
-//    	__WFI();
-    }
-
-//    car_init();
-//    car_run();
-
-//    Ultrasonic_Capture_Timer_Init();
-//    Ultrasonic_Trigger_Timer_Init();
-//
-//    Ultrasonic_Start_Trigger();
-//
-//    while(1) {
-//    	if(ultrasonicSensorEdgeCount == 2) {
-//    		uint32_t distance = ultrasonicSensorDistance;
-//    		if(distance < 5) {
-//    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(125);
-//    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
-//    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
-//    		} else if(distance < 10) {
-//    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
-//    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(125);
-//    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
-//    		} else if(distance < 15) {
-//    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
-//    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
-//    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(125);
-//    		} else {
-//    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(125);
-//    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(125);
-//    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(125);
-//    		}
-//    		ultrasonicSensorEdgeCount = 0;
-//    	}
-//    }
-
-//    trimpot_init();
-//
-//
-//
-//    while(1) {
-//    	value = trimpot_measure();
-//
-//    	rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute((value * 255 / 0xFFF));
-//    }
+    func_list[run_config]();
 
     // Force the counter to be placed into memory
     volatile static int i = 0 ;

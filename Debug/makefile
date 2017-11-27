@@ -32,7 +32,7 @@ all: test.axf
 test.axf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU Linker'
-	arm-none-eabi-gcc -nostdlib -L"/Users/karacasoft/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug" -Xlinker -Map="test.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=softfp -mthumb -T "test_Debug.ld" -o "test.axf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -nostdlib -L"/Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug" -Xlinker -Map="test.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=softfp -mthumb -T "test_Debug.ld" -o "test.axf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build

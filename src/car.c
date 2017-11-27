@@ -5,6 +5,8 @@
  *      Author: karacasoft
  */
 
+#include "chip.h"
+
 #define LIGHT_DIFF_THRESHOLD 50
 
 #define LIGHT_DIRECTION_LEFT 0
