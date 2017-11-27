@@ -89,8 +89,8 @@ void clear_interval(uint8_t id) {
 
 void sleep(uint32_t millis) {
 	is_sleeping = 1;
+	set_timeout(millis, unsleep);
 	while(is_sleeping) {
-		set_timeout(millis, unsleep);
 		__WFI();
 	}
 }

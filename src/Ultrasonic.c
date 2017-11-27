@@ -9,6 +9,7 @@
 #include "Ultrasonic.h"
 #include "dev/iocon.h"
 #include "dev/device.h"
+#include "dev/timer.h"
 
 void Ultrasonic_Trigger_Timer_Init() {
 	//Give the Correct Function Values to IOCON_TRIGGER
@@ -51,7 +52,7 @@ void Ultrasonic_Capture_Timer_Init() {
 	TIMER3->TCR |= (1 << 1);
 	
 	//Change PR Register value for 1 microsecond incrementing
-	TIMER3->PR = 60;
+	TIMER3->PR = 59;
 	//Write the Correct Value for Getting Interrupt when Rising Edge Occur
 	TIMER3->CCR = (1<<0 | 1<<2);
 	//Remove the reset on counters of Timer3.
@@ -60,7 +61,7 @@ void Ultrasonic_Capture_Timer_Init() {
 	TIMER3->TCR |= (1 << 0);
 }
 
-void Ulrasonic_Start_Trigger() {
+void Ultrasonic_Start_Trigger() {
 	//Give correct value to MR3 Register for 10 microsecond
 	TIMER2->MR3 = 10;
 	//Enable interrupt for MR3 register, if MR3 register matches the TC.
@@ -77,7 +78,7 @@ uint8_t ultrasonicSensorEdgeCount = 0;
 void TIMER2_IRQHandler() {
 	if(isUltrasonicSensorTriggerEnded == 0) {
 		//Change MR3 Register Value for Suggested Waiting
-		TIMER2->MR3 = 60000;
+		TIMER2->MR3 = 60500;
 		
 		isUltrasonicSensorTriggerEnded = 1;
 		
@@ -111,7 +112,7 @@ void TIMER3_IRQHandler() {
 		//Store the rising time into ultrasonicSensorRisingTime variable
 		ultrasonicSensorRisingTime = TIMER3->CR0;
 		
-		TIMER3->CCR = (1 << 1) | (1 << 2);
+		TIMER3->CCR |= (1 << 1) | (1 << 2);
 		ultrasonicSensorEdgeCount = 1;
 	}
 	else if(ultrasonicSensorEdgeCount == 1){
@@ -119,7 +120,7 @@ void TIMER3_IRQHandler() {
 		//Store the falling time into ultrasonicSensorFallingTime variable
 		ultrasonicSensorFallingTime = TIMER3->CR0;
 		
-		TIMER3->CCR = (1 << 0) | (1 << 2);
+		TIMER3->CCR |= (1 << 0) | (1 << 2);
 		
 		ultrasonicSensorEdgeCount = 2;
 		

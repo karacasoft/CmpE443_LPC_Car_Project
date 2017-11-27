@@ -15,6 +15,9 @@
 #include "dev/ldr.h"
 #include "dev/car_leds.h"
 #include "dev/l298n.h"
+#include "dev/trimpot.h"
+#include "dev/joystick.h"
+#include "Ultrasonic.h"
 
 uint8_t state;
 
@@ -27,6 +30,9 @@ void go_forward_behavior();
 void go_nuts_behavior();
 void follow_light_behavior();
 
+void update_speed() {
+
+}
 
 void check_ldr(uint16_t *difference, uint8_t *direction) {
 	uint16_t lightLeft = ldr_measure_left();
@@ -43,6 +49,10 @@ void check_ldr(uint16_t *difference, uint8_t *direction) {
 
 void evade_obstacle_behavior() {
 	// TODO implement Ultrasonic sensor
+	while(ultrasonicSensorDistance < 30) {
+		motor_driver->commands[L298N_COMMAND_GO_BACKWARD].execute(0);
+	}
+
 }
 
 void go_forward_behavior() {
@@ -110,12 +120,20 @@ void follow_light_behavior() {
 void car_init() {
 	car_leds_initialize();
 	ldr_init();
+	trimpot_init();
+	joystick_init();
+
+	Ultrasonic_Capture_Timer_Init();
+	Ultrasonic_Trigger_Timer_Init();
+
 
 	motor_driver = getL298NDevice();
 	motor_driver->start();
 }
 
 void car_run() {
+	Ultrasonic_Start_Trigger();
+
 	while(1) {
 		switch(state) {
 		case CAR_STATE_EVADE_OBSTACLE:

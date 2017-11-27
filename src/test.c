@@ -92,7 +92,7 @@ int main(void) {
     Ultrasonic_Capture_Timer_Init();
     Ultrasonic_Trigger_Timer_Init();
 
-    Ulrasonic_Start_Trigger();
+    Ultrasonic_Start_Trigger();
 
     while(1) {
     	if(ultrasonicSensorEdgeCount == 2) {

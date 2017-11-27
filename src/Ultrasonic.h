@@ -16,7 +16,7 @@
 	
 void Ultrasonic_Trigger_Timer_Init(void);
 void Ultrasonic_Capture_Timer_Init(void);
-void Ulrasonic_Start_Trigger(void);
+void Ultrasonic_Start_Trigger(void);
 
 extern uint8_t isUltrasonicSensorTriggerEnded;
 extern uint8_t ultrasonicSensorEdgeCount;
