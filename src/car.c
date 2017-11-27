@@ -54,9 +54,9 @@ void check_ldr(uint16_t *difference, uint8_t *direction) {
 }
 
 void evade_obstacle_behavior() {
-	// TODO implement Ultrasonic sensor
 	while(ultrasonicSensorDistance < 30) {
 		motor_driver->commands[L298N_COMMAND_GO_BACKWARD].execute(0);
+		sleep(100);
 	}
 	state = CAR_STATE_GO_FORWARD;
 }
@@ -65,8 +65,6 @@ void go_forward_behavior() {
 	uint16_t speed_locked = speed;
 	motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked, L298N_BOTH_WHEELS);
 
-	// TODO check ultrasonic sensor value
-	// change state if it should be changed
 	if(ultrasonicSensorDistance < 10) {
 		motor_driver->commands[L298N_COMMAND_STOP].execute(0);
 		state = CAR_STATE_EVADE_OBSTACLE;
@@ -84,14 +82,12 @@ void go_forward_behavior() {
 }
 
 void stop_behavior() {
-	//TODO should not be implemented
+	// Intentionally blank
 }
 
 void follow_light_behavior() {
 	uint8_t starting_state = state;
 
-	//TODO check ultrasonic sensor value
-	// change state if it should be changed
 	if(ultrasonicSensorDistance < 10) {
 		motor_driver->commands[L298N_COMMAND_STOP].execute(0);
 		state = CAR_STATE_EVADE_OBSTACLE;
