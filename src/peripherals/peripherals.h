@@ -6,6 +6,11 @@
 #define PCONP_BASE 0x400FC0C4
 #define PCONP *((volatile uint32_t *) PCONP_BASE)
 
+#define PCON_BASE 0x400FC0C0
+#define PCON *((volatile uint32_t *) PCON_BASE)
+
+#define SCR *((volatile uint32_t * ) 0xE000ED10)
+
 #define PC_LCD_BIT                       0x1         // 0
 #define PC_TIMER0_BIT                    0x2         // 1
 #define PC_TIMER1_BIT                    0x4         // 1

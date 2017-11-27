@@ -131,6 +131,14 @@ void car_init() {
 	motor_driver->start();
 }
 
+void check_joystick_center() {
+	if(joystick_is_button_pressed(JOY_BUTTON_CENTER)){
+		PCON |= 3;
+		SCR |= (1<<2);
+		__WFI();
+	}
+}
+
 void car_run() {
 	Ultrasonic_Start_Trigger();
 
@@ -149,5 +157,6 @@ void car_run() {
 			go_nuts_behavior();
 			break;
 		}
+		check_joystick_center();
 	}
 }
