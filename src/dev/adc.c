@@ -94,6 +94,8 @@ void ADC_IRQHandler(void) {
 
 	uint16_t measurement = adc_dr_regs[current_channel]->RESULT;
 
+	ADC->GDR = ADC->GDR;
+
 	callbacks[current_channel](measurement);
 
 	uint8_t beginning_channel = current_channel;
@@ -222,7 +224,9 @@ static void start(void) {
 	}
 	USING_PERIPHERAL(PR_ADC);
 
-	ADC->CR = ((1 << 0) | (119 << 8));
+	ADC->CR = ((1 << 0) | (59 << 8));
+	ADC->GDR = ADC->GDR;
+	ADC->INTEN = 0;
 
 
 }

@@ -11,7 +11,7 @@
 #include "trimpot.h"
 #include "adc.h"
 
-uint8_t measuring_trimpot = 0;
+volatile uint8_t measuring_trimpot = 0;
 
 device_info_t *trimpot_adc_device;
 

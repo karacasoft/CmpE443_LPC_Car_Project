@@ -25,6 +25,8 @@
 #include "dev/adc.h"
 #include "dev/car_leds.h"
 #include "car.h"
+#include "dev/trimpot.h"
+#include "dev/joystick.h"
 
 #include "Ultrasonic.h"
 
@@ -32,9 +34,15 @@ device_info_t *rgb_led;
 
 static uint8_t led_light;
 
+uint16_t value;
+
+uint8_t reading_ldr = 0;
+uint32_t greenVal;
+
 void adc_callback_green(uint16_t value) {
-	uint32_t greenVal = (uint32_t) value * 255 / 0xFFF;
+	greenVal = (uint32_t) value * 255 / 0xFFF;
 	rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute((uint8_t) greenVal - 150);
+	reading_ldr = 0;
 }
 
 void adc_callback_blue(uint16_t value) {
@@ -75,16 +83,21 @@ int main(void) {
     rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
 
 
-//    device_info_t *adc_device = getADCDevice();
-//
-//    adc_device->start();
-//
-//    while(1) {
-//    	adc_device->commands[ADC_COMMAND_CONVERT].execute(1, adc_callback_green);
-//    	__WFI();
+    device_info_t *adc_device = getADCDevice();
+
+    adc_device->start();
+
+
+
+    while(1) {
+    	reading_ldr = 1;
+    	adc_device->commands[ADC_COMMAND_CONVERT].execute(1, adc_callback_green);
+    	while(reading_ldr) {
+    		__WFI();
+    	}
 //    	adc_device->commands[ADC_COMMAND_CONVERT].execute(2, adc_callback_blue);
 //    	__WFI();
-//    }
+    }
 
 //    car_init();
 //    car_run();
@@ -116,6 +129,16 @@ int main(void) {
 //    		}
 //    		ultrasonicSensorEdgeCount = 0;
 //    	}
+//    }
+
+//    trimpot_init();
+//
+//
+//
+//    while(1) {
+//    	value = trimpot_measure();
+//
+//    	rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute((value * 255 / 0xFFF));
 //    }
 
     // Force the counter to be placed into memory

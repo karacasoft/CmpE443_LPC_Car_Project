@@ -1,5 +1,7 @@
 #include "device.h"
 
+#include "pwm0.h"
+
 uint8_t device_count = 0;
 
 device_t devices[MAX_DEVICES] = {0};
@@ -63,5 +65,10 @@ void stop_device(device_info_t *device) {
 
 void pin_error_state() {
 	// get stuck in an endless loop
+	PWM0->MR0 = 60000000;
+
+	PWM0->MR3 = 60000000;
+	PWM0->MR5 = 60000000;
+	PWM0->MR6 = 30000000;
 	while(1);
 }

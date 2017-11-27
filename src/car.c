@@ -30,8 +30,12 @@ void go_forward_behavior();
 void stop_behavior();
 void follow_light_behavior();
 
-void update_speed() {
+void update_speed(uint16_t value) {
+	speed = value;
+}
 
+void init_update_speed() {
+	set_interval(20, update_speed);
 }
 
 void check_ldr(uint16_t *difference, uint8_t *direction) {
@@ -141,7 +145,6 @@ void car_init() {
 	Ultrasonic_Capture_Timer_Init();
 	Ultrasonic_Trigger_Timer_Init();
 
-
 	motor_driver = getL298NDevice();
 	motor_driver->start();
 
@@ -160,6 +163,7 @@ void check_joystick() {
 
 void car_run() {
 	Ultrasonic_Start_Trigger();
+	init_update_speed();
 
 	while(1) {
 		switch(state) {
