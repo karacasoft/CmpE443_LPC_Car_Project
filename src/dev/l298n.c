@@ -31,17 +31,17 @@ static l298n_config_t get_default_config(void) {
 		default_config.pwm_channel_en_a = 5;
 		default_config.pwm_channel_en_b = 6;
 
-		default_config.port_in1 = 0;
-		default_config.pin_in1 = 0;
+		default_config.port_in1 = 1;
+		default_config.pin_in1 = 5;
 
-		default_config.port_in2 = 0;
-		default_config.pin_in2 = 1;
+		default_config.port_in2 = 1;
+		default_config.pin_in2 = 3;
 
-		default_config.port_in3 = 0;
-		default_config.pin_in3 = 9;
+		default_config.port_in3 = 1;
+		default_config.pin_in3 = 2;
 
-		default_config.port_in4 = 0;
-		default_config.pin_in4 = 8;
+		default_config.port_in4 = 5;
+		default_config.pin_in4 = 3;
 	}
 	return default_config;
 }
