@@ -24,5 +24,5 @@ void joystick_init() {
 }
 
 uint8_t joystick_is_button_pressed(int joy_button) {
-	return readPin(5, joy_button);
+	return !readPin(5, joy_button);
 }

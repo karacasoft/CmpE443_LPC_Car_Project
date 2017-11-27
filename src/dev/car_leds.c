@@ -90,13 +90,13 @@ void set_off(uint8_t led) {
 }
 
 void car_leds_set_on(uint8_t led) {
-	set_on(led);
 	clear_blink(led);
+	set_on(led);
 }
 
 void car_leds_set_off(uint8_t led) {
-	set_off(led);
 	clear_blink(led);
+	set_off(led);
 }
 
 void car_leds_blink(uint8_t led, uint32_t timeout) {

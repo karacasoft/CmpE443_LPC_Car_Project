@@ -11,7 +11,7 @@
 #include "l298n.h"
 #include "../gpio/gpio.h"
 
-static command_t commands[5];
+static command_t commands[6];
 
 static l298n_config_t default_config;
 

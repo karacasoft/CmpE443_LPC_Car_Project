@@ -50,7 +50,6 @@ struct {
 } adc_iocon_values[8];
 
 static inline void adc_start() {
-	ADC_CR->PDN = 1;
 	ADC_CR->START = 1;
 	adc_working = 1;
 
@@ -59,7 +58,6 @@ static inline void adc_start() {
 
 static inline void adc_stop() {
 	ADC_CR->START = 0;
-	ADC_CR->PDN = 0;
 	adc_working = 0;
 
 	NVIC_DisableIRQ(ADC_IRQn);
@@ -219,7 +217,7 @@ static void init(void) {
 }
 
 static void start(void) {
-	if(!IS_DEVICE_INITIALIZED(&__adc.info)) {
+	if(!IS_DEVICE_INITIALIZED(&__adc.info) && IS_DEVICE_AVAILABLE(&__adc.info)) {
 		return;
 	}
 	USING_PERIPHERAL(PR_ADC);
@@ -227,7 +225,9 @@ static void start(void) {
 	ADC->CR = ((1 << 0) | (59 << 8));
 	ADC->GDR = ADC->GDR;
 	ADC->INTEN = 0;
+	ADC_CR->PDN = 1;
 
+	NVIC_SetPriority(ADC_IRQn, 1);
 
 }
 

@@ -39,7 +39,7 @@ void Ultrasonic_Trigger_Timer_Init() {
 
 void Ultrasonic_Capture_Timer_Init() {
 	//Give the Correct Function Values to IOCON_ECHO
-	IOCON_P0[23].fields.FUNC = 3;
+	IOCON_P0[24].fields.FUNC = 3;
 	//Enable Timer3
 	USING_PERIPHERAL(PR_TIMER3);
 	//This code changes the mode of Timer3 to Timer Mode.
@@ -54,7 +54,7 @@ void Ultrasonic_Capture_Timer_Init() {
 	//Change PR Register value for 1 microsecond incrementing
 	TIMER3->PR = 59;
 	//Write the Correct Value for Getting Interrupt when Rising Edge Occur
-	TIMER3->CCR = (1<<0 | 1<<2);
+	TIMER3->CCR = ((1<<0) | (1<<2)) << 3;
 	//Remove the reset on counters of Timer3.
 	TIMER3->TCR &= ~(1 << 1);
 	//Enable Timer3 Counter and Prescale Counter for counting.
@@ -110,17 +110,17 @@ void TIMER3_IRQHandler() {
 	if(ultrasonicSensorEdgeCount == 0) {
 		
 		//Store the rising time into ultrasonicSensorRisingTime variable
-		ultrasonicSensorRisingTime = TIMER3->CR0;
+		ultrasonicSensorRisingTime = TIMER3->CR1;
 		
-		TIMER3->CCR |= (1 << 1) | (1 << 2);
+		TIMER3->CCR |= ((1 << 1) | (1 << 2)) << 3;
 		ultrasonicSensorEdgeCount = 1;
 	}
 	else if(ultrasonicSensorEdgeCount == 1){
 		
 		//Store the falling time into ultrasonicSensorFallingTime variable
-		ultrasonicSensorFallingTime = TIMER3->CR0;
+		ultrasonicSensorFallingTime = TIMER3->CR1;
 		
-		TIMER3->CCR |= (1 << 0) | (1 << 2);
+		TIMER3->CCR |= ((1 << 0) | (1 << 2)) << 3;
 		
 		ultrasonicSensorEdgeCount = 2;
 		
@@ -132,6 +132,6 @@ void TIMER3_IRQHandler() {
 		NVIC_DisableIRQ(TIMER3_IRQn);
 	}
 	
-	TIMER3->IR = 1 << 4;
+	TIMER3->IR = 1 << 5;
 }
 

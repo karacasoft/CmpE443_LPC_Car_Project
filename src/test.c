@@ -45,7 +45,7 @@ uint32_t greenVal;
 #define TEST_CAR 5
 #define DEMO_DAY 6
 
-uint8_t run_config = TEST_ULTRASONIC;
+uint8_t run_config = TEST_CAR;
 
 void adc_callback_green(uint16_t value) {
 	greenVal = (uint32_t) value * 255 / 0xFFF;
@@ -96,6 +96,14 @@ void test_ultrasonic() {
 }
 
 void test_trimpot() {
+    rgb_led = getRGBLed();
+
+    rgb_led->start();
+    rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
+    rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
+    rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
+
+
     trimpot_init();
 
     while(1) {
@@ -136,17 +144,25 @@ void test_leds() {
 }
 
 void test_ldr() {
+    rgb_led = getRGBLed();
+
+    rgb_led->start();
+    rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
+    rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
+    rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
+
+
     device_info_t *adc_device = getADCDevice();
 
     adc_device->start();
 
     while(1) {
     	reading_ldr = 1;
-    	adc_device->commands[ADC_COMMAND_CONVERT].execute(1, adc_callback_green);
+    	adc_device->commands[ADC_COMMAND_CONVERT].execute(2, adc_callback_green);
     	while(reading_ldr) {
     		__WFI();
     	}
-//    	adc_device->commands[ADC_COMMAND_CONVERT].execute(2, adc_callback_blue);
+//    	adc_device->commands[ADC_COMMAND_CONVERT].execute(3, adc_callback_blue);
 //    	__WFI();
     }
 }

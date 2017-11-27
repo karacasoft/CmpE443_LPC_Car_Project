@@ -32,8 +32,9 @@ void go_forward_behavior();
 void stop_behavior();
 void follow_light_behavior();
 
-void update_speed(uint16_t value) {
-	speed = value;
+void update_speed(uint32_t time) {
+	speed = trimpot_measure();
+	motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed * 100 / 0xFFF, L298N_BOTH_WHEELS);
 }
 
 void init_update_speed() {
@@ -67,8 +68,7 @@ void evade_obstacle_behavior() {
 }
 
 void go_forward_behavior() {
-	uint16_t speed_locked = speed;
-	motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked, L298N_BOTH_WHEELS);
+	motor_driver->commands[L298N_COMMAND_GO_FORWARD].execute(0);
 
 	car_leds_set_on(LED_FRONT_LEFT);
 	car_leds_set_on(LED_FRONT_RIGHT);
@@ -149,6 +149,8 @@ void car_init() {
 	ldr_init();
 	trimpot_init();
 	joystick_init();
+//	init_update_speed();
+
 
 	Ultrasonic_Capture_Timer_Init();
 	Ultrasonic_Trigger_Timer_Init();
@@ -161,8 +163,14 @@ void car_init() {
 
 void check_joystick() {
 	if(joystick_is_button_pressed(JOY_BUTTON_CENTER)){
-		PCON |= 3;
-		SCR |= (1<<2);
+		SCR = 4;
+
+		PCON = 3;
+
+		asm volatile ("nop\nnop\nnop\nnop\n");
+		__disable_irq();
+		asm volatile ("mov r0, #1\n"
+				"msr PRIMASK, r0");
 		__WFI();
 	} else if(joystick_is_button_pressed(JOY_BUTTON_UP)) {
 		state = CAR_STATE_GO_FORWARD;
@@ -171,7 +179,6 @@ void check_joystick() {
 
 void car_run() {
 	Ultrasonic_Start_Trigger();
-	init_update_speed();
 
 	while(1) {
 		switch(state) {

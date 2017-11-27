@@ -53,6 +53,7 @@ void init_timer() {
 
 	TIMER1->TCR = 0x1;
 
+	NVIC_SetPriority(TIMER1_IRQn, 2);
 	NVIC_EnableIRQ(TIMER1_IRQn);
 }
 
