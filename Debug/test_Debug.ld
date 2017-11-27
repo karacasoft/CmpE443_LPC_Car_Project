@@ -5,7 +5,7 @@
  * Generated linker script file for LPC4088
  * Created from linkscript.ldt by FMCreateLinkLibraries
  * Using Freemarker v2.3.23
- * MCUXpresso IDE v10.1.0 [Build 589] [2017-11-14] on Nov 27, 2017 7:56:47 PM
+ * MCUXpresso IDE v10.1.0 [Build 589] [2017-11-14] on Nov 27, 2017 8:20:59 PM
  */
 
 INCLUDE "test_Debug_library.ld"

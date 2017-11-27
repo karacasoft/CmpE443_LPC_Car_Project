@@ -51,7 +51,7 @@ void Ultrasonic_Capture_Timer_Init() {
 	TIMER3->TCR |= (1 << 1);
 	
 	//Change PR Register value for 1 microsecond incrementing
-	TIMER3->PR = 15;
+	TIMER3->PR = 60;
 	//Write the Correct Value for Getting Interrupt when Rising Edge Occur
 	TIMER3->CCR = (1<<0 | 1<<2);
 	//Remove the reset on counters of Timer3.

@@ -115,9 +115,7 @@ int main(void) {
     			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(125);
     		}
     		ultrasonicSensorEdgeCount = 0;
-    		__WFI();
     	}
-    	__WFI();
     }
 
     // Force the counter to be placed into memory

@@ -1536,7 +1536,7 @@ END GROUP
                 0x0000000020008000                __top_RamPeriph32 = 0x20008000
                 0x0000000020008000                __top_RAM2 = 0x20008000
 
-.text           0x0000000000000000     0x163c
+.text           0x0000000000000000     0x1638
  FILL mask 0xff
                 0x0000000000000000                __vectors_start__ = ABSOLUTE (.)
  *(.isr_vector)
@@ -1545,10 +1545,10 @@ END GROUP
                 0x00000000000000e4                . = ALIGN (0x4)
                 0x00000000000000e4                __section_table_start = .
                 0x00000000000000e4                __data_section_table = .
-                0x00000000000000e4        0x4 LONG 0x163c LOADADDR (.data)
+                0x00000000000000e4        0x4 LONG 0x1638 LOADADDR (.data)
                 0x00000000000000e8        0x4 LONG 0x10000000 ADDR (.data)
                 0x00000000000000ec        0x4 LONG 0x70 SIZEOF (.data)
-                0x00000000000000f0        0x4 LONG 0x163c LOADADDR (.data_RAM2)
+                0x00000000000000f0        0x4 LONG 0x1638 LOADADDR (.data_RAM2)
                 0x00000000000000f4        0x4 LONG 0x20000000 ADDR (.data_RAM2)
                 0x00000000000000f8        0x4 LONG 0x0 SIZEOF (.data_RAM2)
                 0x00000000000000fc                __data_section_table_end = .
@@ -1693,112 +1693,112 @@ END GROUP
  .text.SystemInit
                 0x0000000000001050       0x28 ./src/sysinit.o
                 0x0000000000001050                SystemInit
- .text.main     0x0000000000001078      0x134 ./src/test.o
+ .text.main     0x0000000000001078      0x130 ./src/test.o
                 0x0000000000001078                main
  .text.SystemCoreClockUpdate
-                0x00000000000011ac       0x18 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(chip_17xx_40xx.o)
-                0x00000000000011ac                SystemCoreClockUpdate
+                0x00000000000011a8       0x18 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(chip_17xx_40xx.o)
+                0x00000000000011a8                SystemCoreClockUpdate
  .text.Chip_Clock_IsMainPLLEnabled
-                0x00000000000011c4       0x28 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x00000000000011c0       0x28 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
  .text.Chip_Clock_FeedPLL
-                0x00000000000011ec       0x38 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x00000000000011e8       0x38 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
  .text.Chip_Clock_GetMainPLLSource
-                0x0000000000001224       0x20 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x0000000000001220       0x20 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
  .text.Chip_Clock_GetMainOscRate
-                0x0000000000001244       0x18 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x0000000000001240       0x18 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
  .text.Chip_Clock_GetIntOscRate
-                0x000000000000125c       0x14 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x0000000000001258       0x14 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
  .text.Chip_Clock_GetMainPLLInClockRate
-                0x0000000000001270        0xe /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
- *fill*         0x000000000000127e        0x2 ff
+                0x000000000000126c        0xe /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+ *fill*         0x000000000000127a        0x2 ff
  .text.Chip_Clock_EnablePLL
-                0x0000000000001280       0x44 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
-                0x0000000000001280                Chip_Clock_EnablePLL
+                0x000000000000127c       0x44 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x000000000000127c                Chip_Clock_EnablePLL
  .text.Chip_Clock_DisablePLL
-                0x00000000000012c4       0x48 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
-                0x00000000000012c4                Chip_Clock_DisablePLL
+                0x00000000000012c0       0x48 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x00000000000012c0                Chip_Clock_DisablePLL
  .text.Chip_Clock_SetupPLL
-                0x000000000000130c       0x4c /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
-                0x000000000000130c                Chip_Clock_SetupPLL
+                0x0000000000001308       0x4c /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x0000000000001308                Chip_Clock_SetupPLL
  .text.Chip_Clock_SetCPUClockSource
-                0x0000000000001358       0x44 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
-                0x0000000000001358                Chip_Clock_SetCPUClockSource
+                0x0000000000001354       0x44 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x0000000000001354                Chip_Clock_SetCPUClockSource
  .text.Chip_Clock_GetCPUClockSource
-                0x000000000000139c       0x30 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
-                0x000000000000139c                Chip_Clock_GetCPUClockSource
+                0x0000000000001398       0x30 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x0000000000001398                Chip_Clock_GetCPUClockSource
  .text.Chip_Clock_SetCPUClockDiv
-                0x00000000000013cc       0x30 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
-                0x00000000000013cc                Chip_Clock_SetCPUClockDiv
+                0x00000000000013c8       0x30 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x00000000000013c8                Chip_Clock_SetCPUClockDiv
  .text.Chip_Clock_GetCPUClockDiv
-                0x00000000000013fc       0x1c /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
-                0x00000000000013fc                Chip_Clock_GetCPUClockDiv
+                0x00000000000013f8       0x1c /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x00000000000013f8                Chip_Clock_GetCPUClockDiv
  .text.Chip_Clock_GetSYSCLKRate
-                0x0000000000001418       0x2a /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
-                0x0000000000001418                Chip_Clock_GetSYSCLKRate
- *fill*         0x0000000000001442        0x2 ff
+                0x0000000000001414       0x2a /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x0000000000001414                Chip_Clock_GetSYSCLKRate
+ *fill*         0x000000000000143e        0x2 ff
  .text.Chip_Clock_GetMainPLLOutClockRate
-                0x0000000000001444       0x40 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
-                0x0000000000001444                Chip_Clock_GetMainPLLOutClockRate
+                0x0000000000001440       0x40 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x0000000000001440                Chip_Clock_GetMainPLLOutClockRate
  .text.Chip_Clock_GetMainClockRate
-                0x0000000000001484       0x28 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
-                0x0000000000001484                Chip_Clock_GetMainClockRate
+                0x0000000000001480       0x28 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x0000000000001480                Chip_Clock_GetMainClockRate
  .text.Chip_Clock_GetSystemClockRate
-                0x00000000000014ac       0x18 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
-                0x00000000000014ac                Chip_Clock_GetSystemClockRate
- .text.fpuInit  0x00000000000014c4       0x74 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(fpu_init.o)
-                0x00000000000014c4                fpuInit
+                0x00000000000014a8       0x18 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+                0x00000000000014a8                Chip_Clock_GetSystemClockRate
+ .text.fpuInit  0x00000000000014c0       0x74 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(fpu_init.o)
+                0x00000000000014c0                fpuInit
  .text.Chip_Clock_IsMainPLLEnabled
-                0x0000000000001538       0x28 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
+                0x0000000000001534       0x28 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
  .text.Chip_Clock_IsMainPLLLocked
-                0x0000000000001560       0x28 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
+                0x000000000000155c       0x28 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
  .text.Chip_Clock_SetMainPLLSource
-                0x0000000000001588       0x24 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
+                0x0000000000001584       0x24 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
  .text.Chip_Clock_SetPCLKDiv
-                0x00000000000015ac       0x20 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
+                0x00000000000015a8       0x20 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
  .text.Chip_SetupIrcClocking
-                0x00000000000015cc       0x5c /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
-                0x00000000000015cc                Chip_SetupIrcClocking
+                0x00000000000015c8       0x5c /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
+                0x00000000000015c8                Chip_SetupIrcClocking
  .text.Chip_SystemInit
-                0x0000000000001628        0xc /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
-                0x0000000000001628                Chip_SystemInit
+                0x0000000000001624        0xc /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
+                0x0000000000001624                Chip_SystemInit
  .text.__weak_main
-                0x0000000000001634        0x4 /Applications/MCUXpressoIDE_10.1.0_589/ide/tools/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/softfp/libcr_c.a(__weak__main.o)
-                0x0000000000001634                __main
-                0x0000000000001634                __weak_main
+                0x0000000000001630        0x4 /Applications/MCUXpressoIDE_10.1.0_589/ide/tools/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/softfp/libcr_c.a(__weak__main.o)
+                0x0000000000001630                __main
+                0x0000000000001630                __weak_main
  *(.rodata .rodata.* .constdata .constdata.*)
  .rodata.OscRateIn
-                0x0000000000001638        0x4 ./src/sysinit.o
-                0x0000000000001638                OscRateIn
-                0x000000000000163c                . = ALIGN (0x4)
+                0x0000000000001634        0x4 ./src/sysinit.o
+                0x0000000000001634                OscRateIn
+                0x0000000000001638                . = ALIGN (0x4)
 
-.glue_7         0x000000000000163c        0x0
- .glue_7        0x000000000000163c        0x0 linker stubs
+.glue_7         0x0000000000001638        0x0
+ .glue_7        0x0000000000001638        0x0 linker stubs
 
-.glue_7t        0x000000000000163c        0x0
- .glue_7t       0x000000000000163c        0x0 linker stubs
+.glue_7t        0x0000000000001638        0x0
+ .glue_7t       0x0000000000001638        0x0 linker stubs
 
-.vfp11_veneer   0x000000000000163c        0x0
- .vfp11_veneer  0x000000000000163c        0x0 linker stubs
+.vfp11_veneer   0x0000000000001638        0x0
+ .vfp11_veneer  0x0000000000001638        0x0 linker stubs
 
-.v4_bx          0x000000000000163c        0x0
- .v4_bx         0x000000000000163c        0x0 linker stubs
+.v4_bx          0x0000000000001638        0x0
+ .v4_bx         0x0000000000001638        0x0 linker stubs
 
-.iplt           0x000000000000163c        0x0
- .iplt          0x000000000000163c        0x0 ./src/peripherals/peripherals.o
+.iplt           0x0000000000001638        0x0
+ .iplt          0x0000000000001638        0x0 ./src/peripherals/peripherals.o
 
-.rel.dyn        0x000000000000163c        0x0
- .rel.iplt      0x000000000000163c        0x0 ./src/peripherals/peripherals.o
+.rel.dyn        0x0000000000001638        0x0
+ .rel.iplt      0x0000000000001638        0x0 ./src/peripherals/peripherals.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x000000000000163c                __exidx_start = .
+                0x0000000000001638                __exidx_start = .
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x000000000000163c                __exidx_end = .
-                0x000000000000163c                _etext = .
+                0x0000000000001638                __exidx_end = .
+                0x0000000000001638                _etext = .
 
-.data_RAM2      0x0000000020000000        0x0 load address 0x000000000000163c
+.data_RAM2      0x0000000020000000        0x0 load address 0x0000000000001638
  FILL mask 0xff
                 [!provide]                        PROVIDE (__start_data_RAM2, .)
  *(.ramfunc.$RAM2)
@@ -1814,7 +1814,7 @@ END GROUP
                 0x0000000010000000                . = ALIGN (0x4)
                 0x0000000010000000                _end_uninit_RESERVED = .
 
-.data           0x0000000010000000       0x70 load address 0x000000000000163c
+.data           0x0000000010000000       0x70 load address 0x0000000000001638
  FILL mask 0xff
                 0x0000000010000000                _data = .
  *(vtable)
@@ -1835,7 +1835,7 @@ END GROUP
                 0x0000000010000070                . = ALIGN (0x4)
                 0x0000000010000070                _edata = .
 
-.igot.plt       0x0000000010000070        0x0 load address 0x00000000000016ac
+.igot.plt       0x0000000010000070        0x0 load address 0x00000000000016a8
  .igot.plt      0x0000000010000070        0x0 ./src/peripherals/peripherals.o
 
 .bss_RAM2       0x0000000020000000        0x0
@@ -1908,11 +1908,11 @@ END GROUP
                 0x0000000010010000                PROVIDE (_vStackTop, DEFINED (__user_stack_top)?__user_stack_top:(__top_RamLoc64 - 0x0))
                 0xffffffffeffef396                PROVIDE (__valid_user_code_checksum, (0x0 - ((((((_vStackTop + (ResetISR + 0x1)) + (NMI_Handler + 0x1)) + (HardFault_Handler + 0x1)) + (DEFINED (MemManage_Handler)?MemManage_Handler:0x0 + 0x1)) + (DEFINED (BusFault_Handler)?BusFault_Handler:0x0 + 0x1)) + (DEFINED (UsageFault_Handler)?UsageFault_Handler:0x0 + 0x1))))
                 0x0000000000000000                _image_start = LOADADDR (.text)
-                0x00000000000016ac                _image_end = (LOADADDR (.data) + SIZEOF (.data))
-                0x00000000000016ac                _image_size = (_image_end - _image_start)
+                0x00000000000016a8                _image_end = (LOADADDR (.data) + SIZEOF (.data))
+                0x00000000000016a8                _image_size = (_image_end - _image_start)
 OUTPUT(test.axf elf32-littlearm)
 
-.debug_info     0x0000000000000000     0x4f14
+.debug_info     0x0000000000000000     0x4ee5
  .debug_info    0x0000000000000000      0x12e ./src/peripherals/peripherals.o
  .debug_info    0x000000000000012e      0xb6c ./src/dev/adc.o
  .debug_info    0x0000000000000c9a      0x343 ./src/dev/device.o
@@ -1923,13 +1923,13 @@ OUTPUT(test.axf elf32-littlearm)
  .debug_info    0x0000000000002195      0xa37 ./src/Ultrasonic.o
  .debug_info    0x0000000000002bcc      0x270 ./src/cr_startup_lpc407x_8x.o
  .debug_info    0x0000000000002e3c      0x225 ./src/sysinit.o
- .debug_info    0x0000000000003061      0x633 ./src/test.o
- .debug_info    0x0000000000003694      0x632 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(chip_17xx_40xx.o)
- .debug_info    0x0000000000003cc6      0xbc5 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
- .debug_info    0x000000000000488b      0x15d /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(fpu_init.o)
- .debug_info    0x00000000000049e8      0x52c /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
+ .debug_info    0x0000000000003061      0x604 ./src/test.o
+ .debug_info    0x0000000000003665      0x632 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(chip_17xx_40xx.o)
+ .debug_info    0x0000000000003c97      0xbc5 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+ .debug_info    0x000000000000485c      0x15d /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(fpu_init.o)
+ .debug_info    0x00000000000049b9      0x52c /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
 
-.debug_abbrev   0x0000000000000000     0x1805
+.debug_abbrev   0x0000000000000000     0x17fd
  .debug_abbrev  0x0000000000000000       0xbd ./src/peripherals/peripherals.o
  .debug_abbrev  0x00000000000000bd      0x2eb ./src/dev/adc.o
  .debug_abbrev  0x00000000000003a8      0x163 ./src/dev/device.o
@@ -1940,11 +1940,11 @@ OUTPUT(test.axf elf32-littlearm)
  .debug_abbrev  0x0000000000000b94      0x21d ./src/Ultrasonic.o
  .debug_abbrev  0x0000000000000db1      0x132 ./src/cr_startup_lpc407x_8x.o
  .debug_abbrev  0x0000000000000ee3       0xdb ./src/sysinit.o
- .debug_abbrev  0x0000000000000fbe      0x1dd ./src/test.o
- .debug_abbrev  0x000000000000119b      0x16d /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(chip_17xx_40xx.o)
- .debug_abbrev  0x0000000000001308      0x2c9 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
- .debug_abbrev  0x00000000000015d1       0xaa /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(fpu_init.o)
- .debug_abbrev  0x000000000000167b      0x18a /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
+ .debug_abbrev  0x0000000000000fbe      0x1d5 ./src/test.o
+ .debug_abbrev  0x0000000000001193      0x16d /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(chip_17xx_40xx.o)
+ .debug_abbrev  0x0000000000001300      0x2c9 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+ .debug_abbrev  0x00000000000015c9       0xaa /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(fpu_init.o)
+ .debug_abbrev  0x0000000000001673      0x18a /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
 
 .debug_aranges  0x0000000000000000      0x528
  .debug_aranges
@@ -2073,7 +2073,7 @@ OUTPUT(test.axf elf32-littlearm)
  .debug_macro   0x00000000000065af       0xbf /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(fpu_init.o)
  .debug_macro   0x000000000000666e      0x22c /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
 
-.debug_line     0x0000000000000000     0x3a28
+.debug_line     0x0000000000000000     0x3a1f
  .debug_line    0x0000000000000000      0x147 ./src/peripherals/peripherals.o
  .debug_line    0x0000000000000147      0x688 ./src/dev/adc.o
  .debug_line    0x00000000000007cf      0x1c1 ./src/dev/device.o
@@ -2084,11 +2084,11 @@ OUTPUT(test.axf elf32-littlearm)
  .debug_line    0x000000000000149e      0x602 ./src/Ultrasonic.o
  .debug_line    0x0000000000001aa0       0xda ./src/cr_startup_lpc407x_8x.o
  .debug_line    0x0000000000001b7a      0x4ab ./src/sysinit.o
- .debug_line    0x0000000000002025      0x60a ./src/test.o
- .debug_line    0x000000000000262f      0x4e2 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(chip_17xx_40xx.o)
- .debug_line    0x0000000000002b11      0x7a2 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
- .debug_line    0x00000000000032b3      0x204 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(fpu_init.o)
- .debug_line    0x00000000000034b7      0x571 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
+ .debug_line    0x0000000000002025      0x601 ./src/test.o
+ .debug_line    0x0000000000002626      0x4e2 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(chip_17xx_40xx.o)
+ .debug_line    0x0000000000002b08      0x7a2 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
+ .debug_line    0x00000000000032aa      0x204 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(fpu_init.o)
+ .debug_line    0x00000000000034ae      0x571 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(sysinit_17xx_40xx.o)
 
 .debug_str      0x0000000000000000    0x192db
  .debug_str     0x0000000000000000     0x3f99 ./src/peripherals/peripherals.o
@@ -2112,7 +2112,7 @@ OUTPUT(test.axf elf32-littlearm)
  .debug_str     0x0000000000017e2e       0x11 ./src/sysinit.o
                                       0x1644b (size before relaxing)
  .debug_str     0x0000000000017e3f      0x659 ./src/test.o
-                                      0x179fd (size before relaxing)
+                                      0x179f7 (size before relaxing)
  .debug_str     0x0000000000018498      0x606 /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(chip_17xx_40xx.o)
                                       0x16905 (size before relaxing)
  .debug_str     0x0000000000018a9e      0x6ae /Users/bahadir/Documents/MCUXpressoIDE_10.1.0/workspace/lpc_chip_40xx/Debug/liblpc_chip_40xx.a(clock_17xx_40xx.o)
