@@ -54,6 +54,11 @@ void check_ldr(uint16_t *difference, uint8_t *direction) {
 }
 
 void evade_obstacle_behavior() {
+	car_leds_set_off(LED_FRONT_LEFT);
+	car_leds_set_off(LED_FRONT_RIGHT);
+	car_leds_set_on(LED_BACK_LEFT);
+	car_leds_set_on(LED_BACK_RIGHT);
+
 	while(ultrasonicSensorDistance < 30) {
 		motor_driver->commands[L298N_COMMAND_GO_BACKWARD].execute(0);
 		sleep(100);
@@ -64,6 +69,11 @@ void evade_obstacle_behavior() {
 void go_forward_behavior() {
 	uint16_t speed_locked = speed;
 	motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked, L298N_BOTH_WHEELS);
+
+	car_leds_set_on(LED_FRONT_LEFT);
+	car_leds_set_on(LED_FRONT_RIGHT);
+	car_leds_set_off(LED_BACK_LEFT);
+	car_leds_set_off(LED_BACK_RIGHT);
 
 	if(ultrasonicSensorDistance < 10) {
 		motor_driver->commands[L298N_COMMAND_STOP].execute(0);

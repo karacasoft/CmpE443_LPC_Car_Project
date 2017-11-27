@@ -45,7 +45,7 @@ uint32_t greenVal;
 #define TEST_CAR 5
 #define DEMO_DAY 6
 
-uint8_t run_config = TEST_MOTOR;
+uint8_t run_config = TEST_ULTRASONIC;
 
 void adc_callback_green(uint16_t value) {
 	greenVal = (uint32_t) value * 255 / 0xFFF;
@@ -59,6 +59,13 @@ void adc_callback_blue(uint16_t value) {
 }
 
 void test_ultrasonic() {
+    rgb_led = getRGBLed();
+
+    rgb_led->start();
+    rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
+    rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
+    rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
+
     Ultrasonic_Capture_Timer_Init();
     Ultrasonic_Trigger_Timer_Init();
 
@@ -67,15 +74,15 @@ void test_ultrasonic() {
     while(1) {
     	if(ultrasonicSensorEdgeCount == 2) {
     		uint32_t distance = ultrasonicSensorDistance;
-    		if(distance < 5) {
+    		if(distance < 10) {
     			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(125);
     			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
     			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
-    		} else if(distance < 10) {
+    		} else if(distance < 20) {
     			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
     			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(125);
     			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
-    		} else if(distance < 15) {
+    		} else if(distance < 30) {
     			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
     			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
     			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(125);
@@ -84,7 +91,6 @@ void test_ultrasonic() {
     			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(125);
     			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(125);
     		}
-    		ultrasonicSensorEdgeCount = 0;
     	}
     }
 }
@@ -100,7 +106,33 @@ void test_trimpot() {
 }
 
 void test_leds() {
+	car_leds_initialize();
 
+	car_leds_set_on(LED_FRONT_LEFT);
+	car_leds_set_on(LED_FRONT_RIGHT);
+	car_leds_set_off(LED_BACK_LEFT);
+	car_leds_set_off(LED_BACK_RIGHT);
+
+	sleep(3000);
+
+	car_leds_set_off(LED_FRONT_LEFT);
+	car_leds_set_off(LED_FRONT_RIGHT);
+	car_leds_set_on(LED_BACK_LEFT);
+	car_leds_set_on(LED_BACK_RIGHT);
+
+	sleep(3000);
+
+	car_leds_set_off(LED_FRONT_RIGHT);
+	car_leds_set_off(LED_BACK_RIGHT);
+	car_leds_blink(LED_FRONT_LEFT, 500);
+	car_leds_blink(LED_BACK_LEFT, 500);
+
+	sleep(3000);
+
+	car_leds_set_off(LED_FRONT_LEFT);
+	car_leds_set_off(LED_BACK_LEFT);
+	car_leds_blink(LED_FRONT_RIGHT, 500);
+	car_leds_blink(LED_BACK_RIGHT, 500);
 }
 
 void test_ldr() {
@@ -130,8 +162,11 @@ void test_motor() {
 
     motor_driver->start();
 
-    motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(40);
+    motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(90, L298N_BOTH_WHEELS);
     motor_driver->commands[L298N_COMMAND_GO_FORWARD].execute(0);
+    sleep(3000);
+    motor_driver->commands[L298N_COMMAND_GO_BACKWARD].execute(0);
+
 }
 
 void (*func_list[7])(void) = {
@@ -160,12 +195,12 @@ int main(void) {
 
     init_timer();
 
-    rgb_led = getRGBLed();
-
-    rgb_led->start();
-    rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
-    rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
-    rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
+//    rgb_led = getRGBLed();
+//
+//    rgb_led->start();
+//    rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
+//    rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
+//    rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
 
     func_list[run_config]();
 
