@@ -13,6 +13,7 @@
 #define CAR_STATE_EVADE_OBSTACLE 0
 #define CAR_STATE_FOLLOW_LIGHT 1
 #define CAR_STATE_GO_FORWARD 2
+#define CAR_STATE_STOP 3
 
 extern uint8_t state;
 

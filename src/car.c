@@ -27,7 +27,7 @@ uint16_t speed = 50;
 
 void evade_obstacle_behavior();
 void go_forward_behavior();
-void go_nuts_behavior();
+void stop_behavior();
 void follow_light_behavior();
 
 void update_speed() {
@@ -52,23 +52,33 @@ void evade_obstacle_behavior() {
 	while(ultrasonicSensorDistance < 30) {
 		motor_driver->commands[L298N_COMMAND_GO_BACKWARD].execute(0);
 	}
-
+	state = CAR_STATE_GO_FORWARD;
 }
 
 void go_forward_behavior() {
+	uint16_t speed_locked = speed;
+	motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked, L298N_BOTH_WHEELS);
 
 	// TODO check ultrasonic sensor value
 	// change state if it should be changed
+	if(ultrasonicSensorDistance < 10) {
+		motor_driver->commands[L298N_COMMAND_STOP].execute(0);
+		state = CAR_STATE_EVADE_OBSTACLE;
+		return;
+	}
 
+	uint16_t difference;
+	uint8_t light_dir;
 
-	uint16_t speed_locked = speed;
-	motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked, L298N_LEFT_WHEELS);
-	motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked, L298N_RIGHT_WHEELS);
+	check_ldr(&difference, &light_dir);
+
+	if(difference > LIGHT_DIFF_THRESHOLD) {
+		state = CAR_STATE_FOLLOW_LIGHT;
+	}
 }
 
-void go_nuts_behavior() {
+void stop_behavior() {
 	//TODO should not be implemented
-	while(1) {}
 }
 
 void follow_light_behavior() {
@@ -76,6 +86,11 @@ void follow_light_behavior() {
 
 	//TODO check ultrasonic sensor value
 	// change state if it should be changed
+	if(ultrasonicSensorDistance < 10) {
+		motor_driver->commands[L298N_COMMAND_STOP].execute(0);
+		state = CAR_STATE_EVADE_OBSTACLE;
+		return;
+	}
 
 	uint16_t difference;
 	uint8_t light_dir;
@@ -129,13 +144,17 @@ void car_init() {
 
 	motor_driver = getL298NDevice();
 	motor_driver->start();
+
+	state = CAR_STATE_STOP;
 }
 
-void check_joystick_center() {
+void check_joystick() {
 	if(joystick_is_button_pressed(JOY_BUTTON_CENTER)){
 		PCON |= 3;
 		SCR |= (1<<2);
 		__WFI();
+	} else if(joystick_is_button_pressed(JOY_BUTTON_UP)) {
+		state = CAR_STATE_GO_FORWARD;
 	}
 }
 
@@ -154,9 +173,9 @@ void car_run() {
 			go_forward_behavior();
 			break;
 		default:
-			go_nuts_behavior();
+			stop_behavior();
 			break;
 		}
-		check_joystick_center();
+		check_joystick();
 	}
 }

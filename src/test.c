@@ -89,34 +89,34 @@ int main(void) {
 //    car_init();
 //    car_run();
 
-    Ultrasonic_Capture_Timer_Init();
-    Ultrasonic_Trigger_Timer_Init();
-
-    Ultrasonic_Start_Trigger();
-
-    while(1) {
-    	if(ultrasonicSensorEdgeCount == 2) {
-    		uint32_t distance = ultrasonicSensorDistance;
-    		if(distance < 5) {
-    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(125);
-    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
-    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
-    		} else if(distance < 10) {
-    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
-    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(125);
-    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
-    		} else if(distance < 15) {
-    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
-    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
-    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(125);
-    		} else {
-    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(125);
-    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(125);
-    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(125);
-    		}
-    		ultrasonicSensorEdgeCount = 0;
-    	}
-    }
+//    Ultrasonic_Capture_Timer_Init();
+//    Ultrasonic_Trigger_Timer_Init();
+//
+//    Ultrasonic_Start_Trigger();
+//
+//    while(1) {
+//    	if(ultrasonicSensorEdgeCount == 2) {
+//    		uint32_t distance = ultrasonicSensorDistance;
+//    		if(distance < 5) {
+//    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(125);
+//    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
+//    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
+//    		} else if(distance < 10) {
+//    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
+//    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(125);
+//    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
+//    		} else if(distance < 15) {
+//    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(0);
+//    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
+//    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(125);
+//    		} else {
+//    			rgb_led->commands[RGB_LED_COMMAND_SET_RED_VALUE].execute(125);
+//    			rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(125);
+//    			rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(125);
+//    		}
+//    		ultrasonicSensorEdgeCount = 0;
+//    	}
+//    }
 
     // Force the counter to be placed into memory
     volatile static int i = 0 ;
