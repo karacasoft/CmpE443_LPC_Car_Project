@@ -53,6 +53,7 @@ static inline void adc_start() {
 	ADC_CR->START = 1;
 	adc_working = 1;
 
+	NVIC_SetPriority(ADC_IRQn, 1);
 	NVIC_EnableIRQ(ADC_IRQn);
 }
 

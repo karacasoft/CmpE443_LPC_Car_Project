@@ -38,7 +38,7 @@ void update_speed(uint32_t time) {
 }
 
 void init_update_speed() {
-	set_interval(20, update_speed);
+	set_interval(50, update_speed);
 }
 
 void check_ldr(uint16_t *difference, uint8_t *direction) {
@@ -69,6 +69,7 @@ void evade_obstacle_behavior() {
 
 void go_forward_behavior() {
 	motor_driver->commands[L298N_COMMAND_GO_FORWARD].execute(0);
+	update_speed(0);
 
 	car_leds_set_on(LED_FRONT_LEFT);
 	car_leds_set_on(LED_FRONT_RIGHT);
