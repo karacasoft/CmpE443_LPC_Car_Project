@@ -21,6 +21,7 @@
 #include "dev/trimpot.h"
 #include "dev/joystick.h"
 #include "Ultrasonic.h"
+#include "dev/board_leds.h"
 
 uint8_t state;
 
@@ -100,13 +101,12 @@ void go_forward_behavior() {
 	}
 
 	if(intensity < LIGHT_INTENSITY_THRESHOLD) {
-		//Turn on leds
 		state = CAR_STATE_STOP;
 	}
 }
 
 void stop_behavior() {
-	// Intentionally blank
+	leds_on();
 }
 
 void follow_light_behavior() {
@@ -159,7 +159,6 @@ void follow_light_behavior() {
 	}
 
 	if(intensity < LIGHT_INTENSITY_THRESHOLD) {
-		//Turn on leds
 		state = CAR_STATE_STOP;
 	}
 }
@@ -169,6 +168,7 @@ void car_init() {
 	ldr_init();
 	trimpot_init();
 	joystick_init();
+	init_board_leds();
 //	init_update_speed();
 
 	Ultrasonic_Capture_Timer_Init();
@@ -205,6 +205,7 @@ void check_joystick() {
 }
 
 void execute_first_sceneario() {
+	leds_off();
 	go_forward_behavior();
 }
 
