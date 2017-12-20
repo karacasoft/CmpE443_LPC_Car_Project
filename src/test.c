@@ -45,7 +45,7 @@ uint32_t greenVal;
 #define TEST_CAR 5
 #define DEMO_DAY 6
 
-uint8_t run_config = TEST_CAR;
+uint8_t run_config = DEMO_DAY;
 
 void adc_callback_green(uint16_t value) {
 	greenVal = (uint32_t) value * 255 / 0xFFF;

@@ -7,7 +7,7 @@
 
 #include "chip.h"
 
-#define LIGHT_DIFF_THRESHOLD 50
+#define LIGHT_DIFF_THRESHOLD 150
 
 #define LIGHT_DIRECTION_LEFT 0
 #define LIGHT_DIRECTION_RIGHT 1
@@ -33,8 +33,8 @@ void stop_behavior();
 void follow_light_behavior();
 
 void update_speed(uint32_t time) {
-	speed = trimpot_measure();
-	motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed * 100 / 0xFFF, L298N_BOTH_WHEELS);
+	speed = trimpot_measure() * 100 / 0xFFF;
+	motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed, L298N_BOTH_WHEELS);
 }
 
 void init_update_speed() {
@@ -60,7 +60,11 @@ void evade_obstacle_behavior() {
 	car_leds_set_on(LED_BACK_LEFT);
 	car_leds_set_on(LED_BACK_RIGHT);
 
+	update_speed(0);
+
 	while(ultrasonicSensorDistance < 30) {
+		check_joystick();
+
 		motor_driver->commands[L298N_COMMAND_GO_BACKWARD].execute(0);
 		sleep(100);
 	}
@@ -118,8 +122,8 @@ void follow_light_behavior() {
 		// stored in this.
 
 		if(light_dir == LIGHT_DIRECTION_LEFT) {
-			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked, L298N_LEFT_WHEELS);
-			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked + (difference / 20), L298N_RIGHT_WHEELS);
+			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(0, L298N_LEFT_WHEELS);
+			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked, L298N_RIGHT_WHEELS);
 
 
 			car_leds_set_off(LED_FRONT_RIGHT);
@@ -128,8 +132,8 @@ void follow_light_behavior() {
 			car_leds_blink(LED_BACK_LEFT, 500);
 
 		} else if (light_dir == LIGHT_DIRECTION_RIGHT){
-			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked + (difference / 20), L298N_LEFT_WHEELS);
-			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked, L298N_RIGHT_WHEELS);
+			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked, L298N_LEFT_WHEELS);
+			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(0, L298N_RIGHT_WHEELS);
 
 			car_leds_set_off(LED_FRONT_LEFT);
 			car_leds_set_off(LED_BACK_LEFT);
@@ -164,12 +168,20 @@ void car_init() {
 
 void check_joystick() {
 	if(joystick_is_button_pressed(JOY_BUTTON_CENTER)){
+
+		__disable_irq();
+		motor_driver->commands[L298N_COMMAND_STOP].execute(0);
+		car_leds_set_off(LED_FRONT_LEFT);
+		car_leds_set_off(LED_FRONT_RIGHT);
+		car_leds_set_off(LED_BACK_LEFT);
+		car_leds_set_off(LED_BACK_RIGHT);
+
 		SCR = 4;
 
 		PCON = 3;
 
 		asm volatile ("nop\nnop\nnop\nnop\n");
-		__disable_irq();
+
 		asm volatile ("mov r0, #1\n"
 				"msr PRIMASK, r0");
 		__WFI();

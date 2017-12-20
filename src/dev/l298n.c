@@ -35,13 +35,13 @@ static l298n_config_t get_default_config(void) {
 		default_config.pin_in1 = 0;
 
 		default_config.port_in2 = 5;
-		default_config.pin_in2 = 1;
+		default_config.pin_in2 = 4;
 
 		default_config.port_in3 = 5;
-		default_config.pin_in3 = 4;
+		default_config.pin_in3 = 1;
 
-		default_config.port_in4 = 0;
-		default_config.pin_in4 = 4;
+		default_config.port_in4 = 1;
+		default_config.pin_in4 = 3;
 	}
 	return default_config;
 }
