@@ -5,10 +5,11 @@
  *      Author: bahadir
  */
 #include <stdint.h>
-#include <stdarg.h>
 
 #include "commandparser.h"
 #include <string.h>
+
+movement_command_t command_t;
 
 movement_command_t* parse_command(char* command) {
 	char *id;
@@ -35,11 +36,11 @@ movement_command_t* parse_command(char* command) {
 		else if(commandstr[3] == 'S') { direction2 = DIR_SOUTH; }
 		else if(commandstr[3] == 'W') { direction2 = DIR_WEST; }
 		else if(commandstr[3] == 'E') { direction2 = DIR_EAST; }
-		else { printf("Text not recognized\n"); return 1; }
+		else { return -1; }
 		dir2mag = (commandstr[4]-48)*10+commandstr[5]-48;
 		if(dir2mag < 0 || dir2mag > 100) { return -1; }
 		if(dir1mag+dir2mag == 1 || dir1mag + dir2mag == 5) { return -1; }
-		movement_command_t command_t;
+
 		command_t.direction1 = direction1;
 		command_t.magnitude1 = dir1mag;
 		command_t.direction2 = direction2;
