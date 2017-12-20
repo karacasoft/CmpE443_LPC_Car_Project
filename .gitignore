@@ -1,0 +1,10 @@
+test LinkServer Debug.launch
+Debug/test.axf
+Debug/test.map
+Debug/test_Debug.ld
+Debug/test_Debug_library.ld
+Debug/test_Debug_memory.ld
+Debug/src/car.o
+Debug/src/test.o
+Debug/src/dev/adc.o
+Debug/src/dev/l298n.o
