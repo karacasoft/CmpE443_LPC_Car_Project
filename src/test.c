@@ -30,6 +30,8 @@
 
 #include "Ultrasonic.h"
 
+#include "commandparser.h"
+
 device_info_t *rgb_led;
 
 uint16_t value;
@@ -218,7 +220,10 @@ int main(void) {
 //    rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
 //    rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
 
-    func_list[run_config]();
+//    func_list[run_config]();
+
+    char command[] = "ID02N15W20";
+    movement_command_t* temp = parse_command(command);
 
     // Force the counter to be placed into memory
     volatile static int i = 0 ;

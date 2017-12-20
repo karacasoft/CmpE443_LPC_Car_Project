@@ -8,3 +8,7 @@ Debug/src/car.o
 Debug/src/test.o
 Debug/src/dev/adc.o
 Debug/src/dev/l298n.o
+Debug/src/commandparser.d
+Debug/src/commandparser.o
+Debug/src/subdir.mk
+Debug/src/test.d
