@@ -8,6 +8,7 @@
 #include "chip.h"
 
 #define LIGHT_DIFF_THRESHOLD 150
+#define LIGHT_INTENSITY_THRESHOLD 20000
 
 #define LIGHT_DIRECTION_LEFT 0
 #define LIGHT_DIRECTION_RIGHT 1
@@ -41,9 +42,11 @@ void init_update_speed() {
 	set_interval(50, update_speed);
 }
 
-void check_ldr(uint16_t *difference, uint8_t *direction) {
+void check_ldr(uint16_t *difference, uint8_t *direction, uint32_t *intensity) {
 	uint16_t lightLeft = ldr_measure_left();
 	uint16_t lightRight = ldr_measure_right();
+
+	*intensity = lightLeft + lightRight;
 
 	if(lightLeft > lightRight) {
 		*difference = lightLeft - lightRight;
@@ -88,11 +91,17 @@ void go_forward_behavior() {
 
 	uint16_t difference;
 	uint8_t light_dir;
+	uint32_t intensity;
 
-	check_ldr(&difference, &light_dir);
+	check_ldr(&difference, &light_dir, &intensity);
 
 	if(difference > LIGHT_DIFF_THRESHOLD) {
 		state = CAR_STATE_FOLLOW_LIGHT;
+	}
+
+	if(intensity < LIGHT_INTENSITY_THRESHOLD) {
+		//Turn on leds
+		state = CAR_STATE_STOP;
 	}
 }
 
@@ -111,8 +120,9 @@ void follow_light_behavior() {
 
 	uint16_t difference;
 	uint8_t light_dir;
+	uint32_t intensity;
 
-	check_ldr(&difference, &light_dir);
+	check_ldr(&difference, &light_dir, &intensity);
 
 	if(difference > LIGHT_DIFF_THRESHOLD) {
 
@@ -147,6 +157,11 @@ void follow_light_behavior() {
 	if(state != starting_state) {
 		sleep(100);
 	}
+
+	if(intensity < LIGHT_INTENSITY_THRESHOLD) {
+		//Turn on leds
+		state = CAR_STATE_STOP;
+	}
 }
 
 void car_init() {
@@ -155,7 +170,6 @@ void car_init() {
 	trimpot_init();
 	joystick_init();
 //	init_update_speed();
-
 
 	Ultrasonic_Capture_Timer_Init();
 	Ultrasonic_Trigger_Timer_Init();
