@@ -82,7 +82,7 @@ void go_forward_behavior() {
 
 	if(ultrasonicSensorDistance < 10) {
 		motor_driver->commands[L298N_COMMAND_STOP].execute(0);
-		state = CAR_STATE_EVADE_OBSTACLE;
+		state = CAR_STATE_STOP;
 		return;
 	}
 
@@ -105,7 +105,7 @@ void follow_light_behavior() {
 
 	if(ultrasonicSensorDistance < 10) {
 		motor_driver->commands[L298N_COMMAND_STOP].execute(0);
-		state = CAR_STATE_EVADE_OBSTACLE;
+		state = CAR_STATE_STOP;
 		return;
 	}
 
@@ -188,6 +188,18 @@ void check_joystick() {
 	} else if(joystick_is_button_pressed(JOY_BUTTON_UP)) {
 		state = CAR_STATE_GO_FORWARD;
 	}
+}
+
+void execute_first_sceneario() {
+	go_forward_behavior();
+}
+
+void execute_second_sceneario() {
+
+}
+
+void execute_bonus_sceneario() {
+
 }
 
 void car_run() {
