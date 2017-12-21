@@ -7,8 +7,8 @@
 
 #include "chip.h"
 
-#define LIGHT_DIFF_THRESHOLD 150
-#define LIGHT_INTENSITY_THRESHOLD 20000
+#define LIGHT_DIFF_THRESHOLD 250
+#define LIGHT_INTENSITY_THRESHOLD 2500
 
 #define LIGHT_DIRECTION_LEFT 0
 #define LIGHT_DIRECTION_RIGHT 1
@@ -51,12 +51,14 @@ void check_ldr(uint16_t *difference, uint8_t *direction, uint32_t *intensity) {
 
 	if(lightLeft > lightRight) {
 		*difference = lightLeft - lightRight;
-		*direction = LIGHT_DIRECTION_LEFT;
+		*direction = LIGHT_DIRECTION_RIGHT;
 	} else {
 		*difference = lightRight - lightLeft;
-		*direction = LIGHT_DIRECTION_RIGHT;
+		*direction = LIGHT_DIRECTION_LEFT;
 	}
 }
+
+void check_joystick();
 
 void evade_obstacle_behavior() {
 	car_leds_set_off(LED_FRONT_LEFT);
@@ -65,17 +67,20 @@ void evade_obstacle_behavior() {
 	car_leds_set_on(LED_BACK_RIGHT);
 
 	update_speed(0);
-
-	while(ultrasonicSensorDistance < 30) {
+	motor_driver->commands[L298N_COMMAND_STOP].execute(0);
+	while(ultrasonicSensorDistance < 20) {
 		check_joystick();
-
-		motor_driver->commands[L298N_COMMAND_GO_BACKWARD].execute(0);
 		sleep(100);
 	}
 	state = CAR_STATE_GO_FORWARD;
 }
 
 void go_forward_behavior() {
+	if(ultrasonicSensorDistance < 20) {
+		state = CAR_STATE_EVADE_OBSTACLE;
+		return;
+	}
+
 	motor_driver->commands[L298N_COMMAND_GO_FORWARD].execute(0);
 	update_speed(0);
 
@@ -83,12 +88,6 @@ void go_forward_behavior() {
 	car_leds_set_on(LED_FRONT_RIGHT);
 	car_leds_set_off(LED_BACK_LEFT);
 	car_leds_set_off(LED_BACK_RIGHT);
-
-	if(ultrasonicSensorDistance < 10) {
-		motor_driver->commands[L298N_COMMAND_STOP].execute(0);
-		state = CAR_STATE_STOP;
-		return;
-	}
 
 	uint16_t difference;
 	uint8_t light_dir;
@@ -99,22 +98,18 @@ void go_forward_behavior() {
 	if(difference > LIGHT_DIFF_THRESHOLD) {
 		state = CAR_STATE_FOLLOW_LIGHT;
 	}
-
-	if(intensity < LIGHT_INTENSITY_THRESHOLD) {
-		state = CAR_STATE_STOP;
-	}
 }
 
 void stop_behavior() {
+	motor_driver->commands[L298N_COMMAND_STOP].execute(0);
 	leds_on();
 }
 
 void follow_light_behavior() {
 	uint8_t starting_state = state;
 
-	if(ultrasonicSensorDistance < 10) {
-		motor_driver->commands[L298N_COMMAND_STOP].execute(0);
-		state = CAR_STATE_STOP;
+	if(ultrasonicSensorDistance < 20) {
+		state = CAR_STATE_EVADE_OBSTACLE;
 		return;
 	}
 
@@ -132,9 +127,9 @@ void follow_light_behavior() {
 		// stored in this.
 
 		if(light_dir == LIGHT_DIRECTION_LEFT) {
-			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(0, L298N_LEFT_WHEELS);
+			motor_driver->commands[L298N_COMMAND_TURN_LEFT].execute(0);
+			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked/3, L298N_LEFT_WHEELS);
 			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked, L298N_RIGHT_WHEELS);
-
 
 			car_leds_set_off(LED_FRONT_RIGHT);
 			car_leds_set_off(LED_BACK_RIGHT);
@@ -142,8 +137,9 @@ void follow_light_behavior() {
 			car_leds_blink(LED_BACK_LEFT, 500);
 
 		} else if (light_dir == LIGHT_DIRECTION_RIGHT){
+			motor_driver->commands[L298N_COMMAND_TURN_RIGHT].execute(0);
 			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked, L298N_LEFT_WHEELS);
-			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(0, L298N_RIGHT_WHEELS);
+			motor_driver->commands[L298N_COMMAND_SET_SPEED].execute(speed_locked/3, L298N_RIGHT_WHEELS);
 
 			car_leds_set_off(LED_FRONT_LEFT);
 			car_leds_set_off(LED_BACK_LEFT);
@@ -156,10 +152,6 @@ void follow_light_behavior() {
 
 	if(state != starting_state) {
 		sleep(100);
-	}
-
-	if(intensity < LIGHT_INTENSITY_THRESHOLD) {
-		state = CAR_STATE_STOP;
 	}
 }
 

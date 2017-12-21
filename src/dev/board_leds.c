@@ -6,6 +6,7 @@
  */
 
 #include "board_leds.h"
+#include "../gpio/gpio.h"
 
 void init_board_leds() {
 	LED1_Init();

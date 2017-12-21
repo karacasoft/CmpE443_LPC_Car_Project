@@ -31,6 +31,7 @@
 #include "Ultrasonic.h"
 
 #include "commandparser.h"
+#include "dev/board_leds.h"
 
 device_info_t *rgb_led;
 
@@ -46,8 +47,10 @@ uint32_t greenVal;
 #define TEST_TRIMPOT 4
 #define TEST_CAR 5
 #define DEMO_DAY 6
+#define TEST_LDR_INTENSITY 7
+#define TEST_COMMANDS 8
 
-uint8_t run_config = DEMO_DAY;
+uint8_t run_config = TEST_CAR;
 
 void adc_callback_green(uint16_t value) {
 	greenVal = (uint32_t) value * 255 / 0xFFF;
@@ -169,6 +172,26 @@ void test_ldr() {
     }
 }
 
+uint32_t intensity;
+uint32_t difference;
+uint8_t direction;
+
+void test_ldr_intensity() {
+	ldr_init();
+	while(1) {
+		uint16_t lightLeft = ldr_measure_left();
+		uint16_t lightRight = ldr_measure_right();
+
+		if(lightLeft > lightRight) {
+				difference = lightLeft - lightRight;
+				direction = 0;
+			} else {
+				difference = lightRight - lightLeft;
+				direction = 1;
+			}
+	}
+}
+
 void start_car(){
 	//VROOOOM
 	car_init();
@@ -187,21 +210,37 @@ void test_motor() {
 
 }
 
-void (*func_list[7])(void) = {
+void test_command_parse() {
+	char command[] = "ID02N15W20";
+	    movement_command_t* temp = parse_command(command);
+	    if(temp->direction1 == DIR_NORTH) {
+
+	    } else if(temp->direction1 == DIR_SOUTH) {
+
+	    } else if(temp->direction1 == DIR_EAST) {
+
+	    } else if(temp->direction1 == DIR_WEST) {
+
+	    }
+}
+
+void (*func_list[9])(void) = {
 	test_motor,
 	test_leds,
 	test_ultrasonic,
 	test_ldr,
 	test_trimpot,
 	start_car,
-	start_car
+	start_car,
+	test_ldr_intensity,
+	test_command_parse
 };
 
 int main(void) {
 
 #if defined (__USE_LPCOPEN)
     // Read clock settings and update SystemCoreClock variable
-    SystemCoreClockUpdate();
+	SystemCoreClockUpdate();
 #if !defined(NO_BOARD_LIB)
     // Set up and initialize all required blocks and
     // functions related to the board hardware
@@ -220,10 +259,7 @@ int main(void) {
 //    rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
 //    rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
 
-//    func_list[run_config]();
-
-    char command[] = "ID02N15W20";
-    movement_command_t* temp = parse_command(command);
+   func_list[run_config]();
 
     // Force the counter to be placed into memory
     volatile static int i = 0 ;
