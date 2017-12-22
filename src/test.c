@@ -175,12 +175,14 @@ void test_ldr() {
 
 uint32_t difference;
 uint8_t direction;
+uint16_t lightLeft;
+uint16_t lightRight;
 
 void test_ldr_intensity() {
 	ldr_init();
 	while(1) {
-		uint16_t lightLeft = ldr_measure_left();
-		uint16_t lightRight = ldr_measure_right();
+		lightLeft = ldr_measure_left();
+		lightRight = ldr_measure_right();
 
 		if(lightLeft > lightRight) {
 			difference = lightLeft - lightRight;

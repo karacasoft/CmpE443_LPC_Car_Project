@@ -199,12 +199,6 @@ void check_joystick() {
 		__WFI();
 	} else if(joystick_is_button_pressed(JOY_BUTTON_UP)) {
 		execute_first_sceneario();
-	} else if(joystick_is_button_pressed(JOY_BUTTON_DOWN)) {
-		//execute_bonus_sceneario();
-	} else if(joystick_is_button_pressed(JOY_BUTTON_LEFT)) {
-		//execute_first_sceneario();
-	} else if(joystick_is_button_pressed(JOY_BUTTON_RIGHT)) {
-		//execute_second_sceneario();
 	}
 }
 
