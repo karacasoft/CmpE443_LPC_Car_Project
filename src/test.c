@@ -55,8 +55,10 @@ uint32_t greenVal;
 #define TEST_COMMANDS 8
 #define TEST_JOYSTICK 9
 #define TEST_EINT0 10
+#define TEST_UART 11
+#define TEST_ESP 12
 
-uint8_t run_config = TEST_CAR;
+uint8_t run_config = TEST_ESP;
 
 void adc_callback_green(uint16_t value) {
 	greenVal = (uint32_t) value * 255 / 0xFFF;
@@ -339,6 +341,8 @@ void test_esp() {
 	
 	esp8266_reset(context);
 	
+	esp8266_send(context, "AT+CWLAP\r\n", 10);
+	
 	esp8266_setOnResponseListener(context, on_esp_response);
 }
 
@@ -353,7 +357,9 @@ void (*func_list[])(void) = {
 		test_ldr_intensity,
 		test_command_parse,
 		test_joystick,
-		test_eint0
+		test_eint0,
+		test_uart,
+		test_esp,
 };
 
 int main(void) {
@@ -370,7 +376,7 @@ int main(void) {
 #endif
 #endif
 
-	//init_timer();
+	init_timer();
 
 	//    rgb_led = getRGBLed();
 	//

@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 
-#define UART_BUFFER_SIZE 2048
+#define UART_BUFFER_SIZE 512
 
 #define UART0_ADDRESS 0x4000C000
 #define UART1_ADDRESS 0x40010000

@@ -17,6 +17,13 @@ esp_context_t esp;
 
 uint8_t waitingReceive;
 
+
+uint8_t resetPort = 1;
+uint8_t resetPin = 5;
+
+uint8_t chdpPort = 1;
+uint8_t chdpPin = 6;
+
 void uart3callback(char *response);
 
 void ap_list_parser(char *responseLine);
@@ -41,23 +48,23 @@ void esp8266_init(esp_context_t *context) {
 	
 	esp.onResponseListener = 0;
 	
-	SET_PIN_USED(1, 24);
-	SET_PIN_USED(1, 23);
+	SET_PIN_USED(resetPort, resetPin);
+	SET_PIN_USED(chdpPort, chdpPin);
 	
-	IOCON_PORTS[1][24].fields.FUNC = 0;
-	IOCON_PORTS[1][23].fields.FUNC = 0;
+	IOCON_PORTS[resetPort][resetPin].fields.FUNC = 0;
+	IOCON_PORTS[chdpPort][chdpPin].fields.FUNC = 0;
 	
-	pinMode(1, 24, OUTPUT);
-	pinMode(1, 23, OUTPUT);
+	pinMode(resetPort, resetPin, OUTPUT);
+	pinMode(chdpPort, chdpPin, OUTPUT);
 	
-	writePin(1, 24, HIGH);
-	writePin(1, 23, HIGH);
+	writePin(resetPort, resetPin, HIGH);
+	writePin(chdpPort, chdpPin, HIGH);
 }
 
 void esp8266_reset(esp_context_t *context) {
-	writePin(1, 24, LOW);
+	writePin(resetPort, resetPin, LOW);
 	sleep(15);
-	writePin(1, 24, HIGH);
+	writePin(resetPort, resetPin, HIGH);
 }
 
 void esp8266_setOnResponseListener(esp_context_t *context, void (*onResponseListener)(char *)) {

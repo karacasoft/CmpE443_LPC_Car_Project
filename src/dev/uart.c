@@ -51,7 +51,7 @@ void enableUartPins(int index) {
 		IOCON_PORTS[0][2].fields.FUNC = 0x1;
 		IOCON_PORTS[0][3].fields.FUNC = 0x1;
 		
-		//IOCON_PORTS[0][2].fields.MODE = 0x0;
+		IOCON_PORTS[0][2].fields.MODE = 0x0;
 		IOCON_PORTS[0][3].fields.MODE = 0x0;
 
 		break;
@@ -63,7 +63,7 @@ void enableUartPins(int index) {
 		IOCON_PORTS[4][28].fields.FUNC = 0x2;
 		
 		IOCON_PORTS[4][29].fields.MODE = 0x0;
-		//IOCON_PORTS[4][28].fields.MODE = 0x0;
+		IOCON_PORTS[4][28].fields.MODE = 0x0;
 		
 		break;
 	default:
@@ -79,15 +79,15 @@ void enableUartInterrupt(int index) {
 			break;
 		case 1:
 			NVIC_EnableIRQ(UART1_IRQn);
-			NVIC_SetPriority(UART1_IRQn, 6);
+			NVIC_SetPriority(UART1_IRQn, 9);
 			break;
 		case 2:
 			NVIC_EnableIRQ(UART2_IRQn);
-			NVIC_SetPriority(UART2_IRQn, 7);
+			NVIC_SetPriority(UART2_IRQn, 9);
 			break;
 		case 3:
 			NVIC_EnableIRQ(UART3_IRQn);
-			NVIC_SetPriority(UART3_IRQn, 5);
+			NVIC_SetPriority(UART3_IRQn, 9);
 			break;
 		case 4:
 			NVIC_EnableIRQ(UART4_IRQn);
