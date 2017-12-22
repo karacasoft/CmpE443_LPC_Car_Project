@@ -54,3 +54,9 @@ Debug/src/peripherals/peripherals.o
 Debug/src/peripherals/subdir.mk
 Debug/src/dev/board_leds.d
 Debug/src/dev/board_leds.o
+Debug/src/dev/eint0_handler.d
+Debug/src/dev/eint0_handler.o
+Debug/src/dev/esp8266.d
+Debug/src/dev/esp8266.o
+Debug/src/dev/uart.d
+Debug/src/dev/uart.o
