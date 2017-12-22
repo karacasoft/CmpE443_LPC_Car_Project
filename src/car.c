@@ -189,9 +189,10 @@ void car_init() {
 	state = CAR_STATE_STOP;
 }
 
-void check_joystick() {
-	if(joystick_is_button_pressed(JOY_BUTTON_CENTER)){
+uint8_t left,right,center,up;
 
+void check_joystick() {
+	if(center = joystick_is_button_pressed(JOY_BUTTON_CENTER)){
 		state = CAR_STATE_STOP;
 		__disable_irq();
 		motor_driver->commands[L298N_COMMAND_STOP].execute(0);
@@ -201,7 +202,6 @@ void check_joystick() {
 		car_leds_set_off(LED_BACK_RIGHT);
 
 		SCR = 4;
-		PCON = 1;
 		PCON = 3;
 
 		asm volatile ("nop\nnop\nnop\nnop\n");
@@ -209,8 +209,12 @@ void check_joystick() {
 		asm volatile ("mov r0, #1\n"
 				"msr PRIMASK, r0");
 		__WFI();
-	} else if(joystick_is_button_pressed(JOY_BUTTON_UP)) {
+	} else if(up = joystick_is_button_pressed(JOY_BUTTON_UP)) {
+
+	} else if(left = joystick_is_button_pressed(JOY_BUTTON_LEFT)) {
 		execute_first_sceneario();
+	} else if(right = joystick_is_button_pressed(JOY_BUTTON_RIGHT)) {
+		execute_second_sceneario();
 	}
 }
 
