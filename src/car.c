@@ -34,6 +34,11 @@ void go_forward_behavior();
 void stop_behavior();
 void follow_light_behavior();
 void check_joystick();
+void execute_bonus_sceneario();
+void execute_second_sceneario();
+void execute_first_sceneario();
+
+uint32_t intensity;
 
 void update_speed(uint32_t time) {
 	speed = trimpot_measure() * 100 / 0xFFF;
@@ -60,8 +65,8 @@ void check_ldr(uint16_t *difference, uint8_t *direction, uint32_t *intensity) {
 }
 
 void evade_obstacle_behavior() {
-	car_leds_set_blink(LED_FRONT_LEFT, 500);
-	car_leds_set_blink(LED_FRONT_RIGHT, 500);
+	car_leds_blink(LED_FRONT_LEFT, 500);
+	car_leds_blink(LED_FRONT_RIGHT, 500);
 	car_leds_set_on(LED_BACK_LEFT);
 	car_leds_set_on(LED_BACK_RIGHT);
 
@@ -117,7 +122,6 @@ void follow_light_behavior() {
 
 	uint16_t difference;
 	uint8_t light_dir;
-	uint32_t intensity;
 
 	check_ldr(&difference, &light_dir, &intensity);
 
@@ -194,13 +198,13 @@ void check_joystick() {
 				"msr PRIMASK, r0");
 		__WFI();
 	} else if(joystick_is_button_pressed(JOY_BUTTON_UP)) {
-
-	} else if(joystick_is_button_pressed(JOY_BUTTON_DOWN)) {
-		execute_bonus_sceneario();
-	} else if(joystick_is_button_pressed(JOY_BUTTON_LEFT)) {
 		execute_first_sceneario();
+	} else if(joystick_is_button_pressed(JOY_BUTTON_DOWN)) {
+		//execute_bonus_sceneario();
+	} else if(joystick_is_button_pressed(JOY_BUTTON_LEFT)) {
+		//execute_first_sceneario();
 	} else if(joystick_is_button_pressed(JOY_BUTTON_RIGHT)) {
-		execute_second_sceneario();
+		//execute_second_sceneario();
 	}
 }
 
