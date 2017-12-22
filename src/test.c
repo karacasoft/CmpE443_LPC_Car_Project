@@ -30,6 +30,7 @@
 #include "dev/uart.h"
 #include "dev/timer.h"
 #include "dev/esp8266.h"
+#include "dev/interrupt.h"
 
 #include "Ultrasonic.h"
 
@@ -53,8 +54,9 @@ uint32_t greenVal;
 #define TEST_LDR_INTENSITY 7
 #define TEST_COMMANDS 8
 #define TEST_JOYSTICK 9
+#define TEST_EINT0 10
 
-uint8_t run_config = TEST_CAR;
+uint8_t run_config = TEST_EINT0;
 
 void adc_callback_green(uint16_t value) {
 	greenVal = (uint32_t) value * 255 / 0xFFF;
@@ -268,18 +270,14 @@ void test_joystick() {
 	}
 }
 
-void (*func_list[])(void) = {
-		test_motor,
-		test_leds,
-		test_ultrasonic,
-		test_ldr,
-		test_trimpot,
-		start_car,
-		start_car,
-		test_ldr_intensity,
-		test_command_parse,
-		test_joystick
-};
+void test_eint0() {
+	IOCON_P2[10].fields.FUNC = 1;
+	EXTINT |= 8;
+	NVIC_EnableIRQ(EINT0_IRQn);
+	SCR = 4;
+	PCON = 1;
+	__WFI();
+}
 
 void uart_buffer_callback_for_test(char *recString) {
 	uart_context_t *context = uart_getUartContext(0);
@@ -344,6 +342,20 @@ void test_esp() {
 	esp8266_setOnResponseListener(context, on_esp_response);
 }
 
+void (*func_list[])(void) = {
+		test_motor,
+		test_leds,
+		test_ultrasonic,
+		test_ldr,
+		test_trimpot,
+		start_car,
+		start_car,
+		test_ldr_intensity,
+		test_command_parse,
+		test_joystick,
+		test_eint0
+};
+
 int main(void) {
 
 #if defined (__USE_LPCOPEN)
@@ -358,7 +370,7 @@ int main(void) {
 #endif
 #endif
 
-	init_timer();
+	//init_timer();
 
 	//    rgb_led = getRGBLed();
 	//
@@ -367,10 +379,7 @@ int main(void) {
 	//    rgb_led->commands[RGB_LED_COMMAND_SET_GREEN_VALUE].execute(0);
 	//    rgb_led->commands[RGB_LED_COMMAND_SET_BLUE_VALUE].execute(0);
 
-	// func_list[run_config]();
-
-    test_esp();
-    
+	func_list[run_config]();
 
 	// Force the counter to be placed into memory
 	volatile static int i = 0 ;
