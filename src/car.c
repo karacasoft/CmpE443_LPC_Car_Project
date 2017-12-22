@@ -33,6 +33,7 @@ void evade_obstacle_behavior();
 void go_forward_behavior();
 void stop_behavior();
 void follow_light_behavior();
+void check_joystick();
 
 void update_speed(uint32_t time) {
 	speed = trimpot_measure() * 100 / 0xFFF;
@@ -58,11 +59,9 @@ void check_ldr(uint16_t *difference, uint8_t *direction, uint32_t *intensity) {
 	}
 }
 
-void check_joystick();
-
 void evade_obstacle_behavior() {
-	car_leds_set_off(LED_FRONT_LEFT);
-	car_leds_set_off(LED_FRONT_RIGHT);
+	car_leds_set_blink(LED_FRONT_LEFT, 500);
+	car_leds_set_blink(LED_FRONT_RIGHT, 500);
 	car_leds_set_on(LED_BACK_LEFT);
 	car_leds_set_on(LED_BACK_RIGHT);
 
@@ -70,6 +69,9 @@ void evade_obstacle_behavior() {
 	motor_driver->commands[L298N_COMMAND_STOP].execute(0);
 	while(ultrasonicSensorDistance < 20) {
 		check_joystick();
+		if(intensity < LIGHT_INTENSITY_THRESHOLD) {
+				leds_on();
+		}
 		sleep(100);
 	}
 	state = CAR_STATE_GO_FORWARD;
@@ -182,7 +184,7 @@ void check_joystick() {
 		car_leds_set_off(LED_BACK_LEFT);
 		car_leds_set_off(LED_BACK_RIGHT);
 
-		SCR = 4;
+		//SCR = 4;
 
 		PCON = 3;
 
@@ -192,13 +194,19 @@ void check_joystick() {
 				"msr PRIMASK, r0");
 		__WFI();
 	} else if(joystick_is_button_pressed(JOY_BUTTON_UP)) {
-		state = CAR_STATE_GO_FORWARD;
+
+	} else if(joystick_is_button_pressed(JOY_BUTTON_DOWN)) {
+		execute_bonus_sceneario();
+	} else if(joystick_is_button_pressed(JOY_BUTTON_LEFT)) {
+		execute_first_sceneario();
+	} else if(joystick_is_button_pressed(JOY_BUTTON_RIGHT)) {
+		execute_second_sceneario();
 	}
 }
 
 void execute_first_sceneario() {
 	leds_off();
-	go_forward_behavior();
+	state = CAR_STATE_GO_FORWARD;
 }
 
 void execute_second_sceneario() {

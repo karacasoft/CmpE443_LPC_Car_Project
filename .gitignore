@@ -52,3 +52,5 @@ Debug/src/gpio/subdir.mk
 Debug/src/peripherals/peripherals.d
 Debug/src/peripherals/peripherals.o
 Debug/src/peripherals/subdir.mk
+Debug/src/dev/board_leds.d
+Debug/src/dev/board_leds.o
