@@ -192,6 +192,7 @@ void car_init() {
 void check_joystick() {
 	if(joystick_is_button_pressed(JOY_BUTTON_CENTER)){
 
+		state = CAR_STATE_STOP;
 		__disable_irq();
 		motor_driver->commands[L298N_COMMAND_STOP].execute(0);
 		car_leds_set_off(LED_FRONT_LEFT);
@@ -201,6 +202,7 @@ void check_joystick() {
 
 		SCR = 4;
 		PCON = 1;
+		PCON = 3;
 
 		asm volatile ("nop\nnop\nnop\nnop\n");
 
