@@ -22,6 +22,8 @@
 #include "dev/joystick.h"
 #include "Ultrasonic.h"
 #include "dev/board_leds.h"
+#include "dev/interrupt.h"
+#include "dev/iocon.h"
 
 uint8_t state;
 
@@ -161,12 +163,21 @@ void follow_light_behavior() {
 	}
 }
 
+void init_pushbutton() {
+	IOCON_P2[10].fields.FUNC = 1;
+	EXTINT |= 8;
+	NVIC_EnableIRQ(EINT0_IRQn);
+	SCR = 4;
+	PCON = 1;
+}
+
 void car_init() {
 	car_leds_initialize();
 	ldr_init();
 	trimpot_init();
 	joystick_init();
 	init_board_leds();
+	init_pushbutton();
 //	init_update_speed();
 
 	Ultrasonic_Capture_Timer_Init();
@@ -188,9 +199,8 @@ void check_joystick() {
 		car_leds_set_off(LED_BACK_LEFT);
 		car_leds_set_off(LED_BACK_RIGHT);
 
-		//SCR = 4;
-
-		PCON = 3;
+		SCR = 4;
+		PCON = 1;
 
 		asm volatile ("nop\nnop\nnop\nnop\n");
 
@@ -216,6 +226,8 @@ void execute_bonus_sceneario() {
 }
 
 void car_run() {
+	__WFI();
+
 	Ultrasonic_Start_Trigger();
 
 	while(1) {

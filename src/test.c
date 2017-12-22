@@ -56,7 +56,7 @@ uint32_t greenVal;
 #define TEST_JOYSTICK 9
 #define TEST_EINT0 10
 
-uint8_t run_config = TEST_EINT0;
+uint8_t run_config = TEST_CAR;
 
 void adc_callback_green(uint16_t value) {
 	greenVal = (uint32_t) value * 255 / 0xFFF;
