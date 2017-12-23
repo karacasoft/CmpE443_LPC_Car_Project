@@ -24,6 +24,7 @@
 #include "dev/board_leds.h"
 #include "dev/interrupt.h"
 #include "dev/iocon.h"
+#include "dev/esp8266.h"
 
 uint8_t state;
 
@@ -232,7 +233,7 @@ void execute_bonus_sceneario() {
 }
 
 void car_run() {
-	__WFI();
+	//__WFI();
 
 	Ultrasonic_Start_Trigger();
 

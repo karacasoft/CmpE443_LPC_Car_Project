@@ -58,7 +58,7 @@ uint32_t greenVal;
 #define TEST_UART 11
 #define TEST_ESP 12
 
-uint8_t run_config = TEST_ESP;
+uint8_t run_config = TEST_CAR;
 
 void adc_callback_green(uint16_t value) {
 	greenVal = (uint32_t) value * 255 / 0xFFF;
